@@ -11,6 +11,7 @@ out="$dirname/00-frames"
 echo "out==$out"
 mkdir $out
 #exit
+echo "ffmpeg -i $1  -vf fps=$2  $out/Frame_$fname-%10d.pn"
 ffmpeg -i $1  -vf fps=$2  $out/Frame_$fname-%10d.png
 
 
