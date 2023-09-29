@@ -74,7 +74,7 @@ def encodehex(hexstr):
 filename = sys.argv[1]
 label = sys.argv[2]
 os.system('rmdir /s /q '+label)
-os.system('mkdir  '+label+'\hex')
+os.system('mkdir  '+label+'\\hex')
 print("start")
 print(filename)
 
