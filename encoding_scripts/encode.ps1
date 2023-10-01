@@ -118,13 +118,11 @@ function convertSourceFile ([string]$filePath, [string]$directoryPath, [string]$
 			$substringWithNewLines=$space_kw
 			$binaryString =  $magicHeader + $binaryString
 			$currentSubstrLen = $binaryString.length
-			write-host "binaryString=$binaryString"
 			for ($j =0; $j -lt $currentSubstrLen; $j++) {			
 				if($lineLen+$j -gt $currentSubstrLen){$lineLen = $currentSubstrLen-$j}
 				if($j  % $Screen_length -eq 0){$substringWithNewLines = $substringWithNewLines  +  $binaryString.substring($j,$lineLen) + $newLine + $space_kw  }
 			}
 			$substringWithNewLines=$newLine + 	$substringWithNewLines
-			write-host "substringWithNewLines=$substringWithNewLines"
 			
 			$outFilePath = "$directoryPath\files\$findex.txt"		
 			Set-Content -Path $outFilePath -Value $substringWithNewLines
