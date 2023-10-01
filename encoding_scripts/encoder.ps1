@@ -100,15 +100,14 @@ function convertSourceFile ([string]$filePath, [string]$directoryPath, [string]$
     $cdate = Get-Date
     Write-host "$cdate => Start generating Files line leng = $Screen_length filePath=$filePath "
     $k=1
-    $lineLen = $Screen_length
+    
     foreach ($byte in $binaryData) {
         
         $binaryString += [convert]::ToString($byte, 2).PadLeft(8, '0')
         $currentSubstrLen = $binaryString.length
         #if ((( $currentSubstrLen % $substringSize) -eq 0) -or ($k -eq $binaryDataLen)) {
         if (( $currentSubstrLen -ge $substringSize ) -or ($k -eq $binaryDataLen)) {
-            
-            
+            $lineLen = $Screen_length           
             $fileIndex = [System.Convert]::ToString($findex,2).PadLeft(20, '0')     
             $magicHeader= $fileIndex + $fileNb + $Screen_lengthStr + $screen_widthStr
             $crc =[System.Text.Encoding]::ASCII.GetBytes($binaryString) | Get-CRC32
@@ -119,13 +118,15 @@ function convertSourceFile ([string]$filePath, [string]$directoryPath, [string]$
                 if($lineLen+$j -gt $currentSubstrLen){$lineLen = $currentSubstrLen-$j}
                 if($j  % $Screen_length -eq 0){$substringWithNewLines = $substringWithNewLines  +  $binaryString.substring($j,$lineLen) + $newLine + $space_kw  }
             }
-        
+                
             $content = $newLine + $space_kw + $crcbin+ $magicHeader  + $newLine + $substringWithNewLines
             $outFilePath = "$directoryPath\files\$findex.txt"       
             Set-Content -Path $outFilePath -Value $content
             $substringWithNewLinesLen = $substringWithNewLines.length
             $cdate = Get-Date
-            Write-host "$cdate => End Write file $findex/$nbOfFiles (round=$round) - substringWithNewLinesLen=$substringWithNewLinesLen currentSubstrLen=$currentSubstrLen" 
+            if($k % 100 -eq 0){
+                Write-host "$cdate => End Write file $findex/$nbOfFiles (round=$round) - substringWithNewLinesLen=$substringWithNewLinesLen currentSubstrLen=$currentSubstrLen" 
+            }
             $binaryString=''
             $findex += 1
             
@@ -141,6 +142,8 @@ if ([string]::IsNullOrEmpty($filePath)) {
     exit 0
 }
 
+$start_proc_datetime = Get-Date
+
 Remove-Item -Path $directoryPath -Recurse  -ErrorAction SilentlyContinue
 New-Item -Path "$directoryPath\files" -ItemType Directory -Force 
 
@@ -151,16 +154,15 @@ $binaryFilesDir= "$directoryPath\files"
 for ($i = 1; $i -le $round; $i++) {
     write-host "Start encoding the file $currentTarget (round=$i/$round) "
     Compress-Archive -Path $currentTarget -DestinationPath "$directoryPath\00-$i"
-    #remove file in Files
-    Get-ChildItem -Path $binaryFilesDir -File | ForEach-Object {Remove-Item $_.FullName}
     $zippedTarget = "$directoryPath\00-$i.zip"
     $file = Get-Item $zippedTarget
     $currentTargetSize = $file.Length
     if (($i -gt 1) -and ($currentTargetSize -ge $previousTargetSize )){
-        write-host "Stop at round $round because zip > previous file"
+        write-host "Stop at round $i because $currentTargetSize (current) > $previousTargetSize(previous) "
         break
     }
-    
+    #remove file in Files
+    Get-ChildItem -Path $binaryFilesDir -File | ForEach-Object {Remove-Item $_.FullName}    
     convertSourceFile -filePath $zippedTarget -directoryPath $directoryPath -round "$i/$round"
     $currentTarget = $binaryFilesDir
     $previousTargetSize=$currentTargetSize
@@ -169,3 +171,8 @@ for ($i = 1; $i -le $round; $i++) {
 
 $cdate = Get-Date
 Write-host "$cdate => End generating Files"
+$end_proc_datetime = Get-Date
+
+
+$diff= New-TimeSpan -Start $start_proc_datetime -End $end_proc_datetime
+Write-Output "Time difference is: $diff"

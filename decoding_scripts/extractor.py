@@ -31,9 +31,6 @@ def imageToText(file,out_dir,binData,errors,metadata):
 	res = True
 	errorMsg=''
 
-	
-	nospacenoLine = nospacenoLine.replace('9','')#For debug
-
 	input_string_with_binary_only = nospacenoLine.replace('0', '').replace('1', '')
 	
 
@@ -51,10 +48,8 @@ def imageToText(file,out_dir,binData,errors,metadata):
 
 			dataShunk = nospacenoLine[112:]
 			crc32_checksum = binascii.crc32(dataShunk.encode())
-
-			#print('fileIndex',fileIndex,'fileNb ',fileNb,' screen_length',screen_length,' screen_width',screen_width,'crc',nospacenoLine[0:32])
+			#print(file,'fileIndex',fileIndex,'fileNb ',fileNb,' screen_length',screen_length,' screen_width',screen_width,'crc',nospacenoLine[0:32])
 			
-
 			if not crc == crc32_checksum : #Incorrect Image
 				errorMsg = 'WRONG_CRC'
 				res = False
