@@ -7,21 +7,21 @@ Through this project, you can provide evidence to your management that even with
 It is structured in three directories :
 1. encoding_scripts : contains two script that you have to write manually in the Target Workstation 
     <br>1.1 encode.ps1 : encode the target File and took two manadatory parameters and two optional. Mandatory parameters are :
-      <br> 1.1.1 input  : File/Directory willing to exfiltrate
-      <br> 1.1.2 output : Where the encoding files will be stored
+      <br> &emsp; 1.1.1 input  : File/Directory willing to exfiltrate
+      <br> &emsp; 1.1.2 output : Where the encoding files will be stored
     <br>1.2 openfiles.ps1 : Allows to open the encoded files for screen recording
 
 2. decoding_scripts : contain three scripts
-   2.1 ffmpeg.sh : split the recording into frames saved in ./00-frames 
-       examples : ffmpeg.sh video.mov 10 (will create 00-frames in current directory)
-   2.2 extractor.py : convert the frames into text files savd in ./00-frames/02-validText 
-      example : python3 extractor.py  00-frames > /dev/null 2>&1 &
-      Check logs : tail -f ./ocr.log
-  2.3 decode.py : rebuild the exfiltrated document from the text extracted by OCR engine.
-     It took two parameters :
-       - First parameter is the text files extracted from the video
-       - Second parameter is the name of the resulting file (zip file)
-     example : python3 decode.py 00-frames/02-validText/ prouve.zip  
+    <br>2.1 ffmpeg.sh : split the recording into frames saved in ./00-frames 
+        <br>&emsp;examples : ffmpeg.sh video.mov 10 (will create 00-frames in current directory)
+    <br>2.2 extractor.py : convert the frames into text files savd in ./00-frames/02-validText 
+       <br>&emsp;example : python3 extractor.py  00-frames > /dev/null 2>&1 &
+      <br>&emsp;Check logs : tail -f ./ocr.log
+   <br>2.3 decode.py : rebuild the exfiltrated document from the text extracted by OCR engine.
+    <br>  It took two parameters :
+      <br> &emsp;- First parameter is the text files extracted from the video
+      <br> &emsp;- Second parameter is the name of the resulting file (zip file)
+      <br>example : python3 decode.py 00-frames/02-validText/ prouve.zip  
    
 4. samples : 
   The directory contain a recording on which you can apply the decoding scripts and get prouve.txt.
