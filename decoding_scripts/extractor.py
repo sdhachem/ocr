@@ -108,7 +108,7 @@ if __name__ == "__main__":
 	in_dir = sys.argv[1]
 	out_dir = in_dir#sys.argv[2]
 
-	
+	print('For more logs detail ==> tail -f ./ocr.log')
 	#Create working directory
 	if not os.path.exists(out_dir):
 		os.mkdir(out_dir)
