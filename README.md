@@ -1,5 +1,4 @@
 # ocr
-Exfiltrating data through OCR ()
 
 The objective of this project is to showcase the potential for data exfiltration through Optical Character Recognition (OCR) technology. The intention is to raise awareness among managers about the risks associated with recording devices and advocate for stricter access controls to critical sections.
 
