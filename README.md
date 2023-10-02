@@ -4,7 +4,7 @@ The objective of this project is to showcase the potential for data exfiltration
 
 Through this project, you can provide evidence to your management that even with a seemingly innocuous device like an iPhone, it is possible to exfiltrate sensitive data from highly secured Windows workstations, which may have stringent restrictions such as no USB access, no internet connectivity, and so on.
 
-It structured in three directories :
+It is structured in three directories :
 1. encoding_scripts : contains two script that you have to write manually in the Target Workstation 
     1.1 encode.ps1 : encode the target File and took two manadatory parameters and two optional. Mandatory parameters are :
        1.1.1 input  : File/Directory willing to exfiltrate
