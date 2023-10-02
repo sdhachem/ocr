@@ -6,10 +6,10 @@ Through this project, you can provide evidence to your management that even with
 
 It is structured in three directories :
 1. encoding_scripts : contains two script that you have to write manually in the Target Workstation 
-    1.1 encode.ps1 : encode the target File and took two manadatory parameters and two optional. Mandatory parameters are :
-       1.1.1 input  : File/Directory willing to exfiltrate
-       1.1.2 output : Where the encoding files will be stored
-    1.2 openfiles.ps1 : Allows to open the encoded files for screen recording
+    <br>1.1 encode.ps1 : encode the target File and took two manadatory parameters and two optional. Mandatory parameters are :
+      <br> 1.1.1 input  : File/Directory willing to exfiltrate
+      <br> 1.1.2 output : Where the encoding files will be stored
+    <br>1.2 openfiles.ps1 : Allows to open the encoded files for screen recording
 
 2. decoding_scripts : contain three scripts
    2.1 ffmpeg.sh : split the recording into frames saved in ./00-frames 
